@@ -3,15 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "create-react-context": "0.3.0",
+    "prop-types": "15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-redux": "7.1.0",
+    "react-yandex-maps": "^4.0.1",
+    "redux": "4.0.4",
+    "redux-thunk": "2.3.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "webpack-dev-server",
+    "build": "webpack",
+    "test": "npm run eslint",
+    "eslint": "eslint --ext .js,.jsx src/"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +35,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "7.5.5",
+    "@babel/preset-env": "7.5.5",
+    "@babel/preset-react": "7.0.0",
+    "@types/yandex-maps": "2.1.8",
+    "babel": "6.23.0",
+    "babel-loader": "8.0.6",
+    "ts-loader": "6.0.4"
   }
 }
