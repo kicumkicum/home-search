@@ -28,6 +28,7 @@ const Map = class extends React.Component {
 			style={{
 				width: `600px`,
 				height: `600px`,
+				display: `inline-block`,
 			}}
 			ref={this.ref}
 		>

@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import pt from 'prop-types';
+import Controls from '../../containers/controls/controls.js';
 import Map from '../../containers/map/map.js';
 import Point from '../../containers/point/point.js';
 import Route from '../../containers/route/route.js';
@@ -23,6 +24,7 @@ const App = (props) => {
 				{
 					points.map((point) => {
 						return <Route
+							key={`route` + point.points.join(`,`)}
 							points={[point.points, [`метро Старая деревня`]]}
 							params={{
 								routingMode: `masstransit`,

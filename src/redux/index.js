@@ -1,3 +1,4 @@
+import readXlsxFile from 'read-excel-file';
 import {Direction, PointsGeo} from '../data/trains';
 
 /**
@@ -6,6 +7,7 @@ import {Direction, PointsGeo} from '../data/trains';
 const PointType = {
 	BUS: `bus`,
 	TRAIN: `train`,
+	HOME: `home`,
 };
 
 const MapStatus = {
@@ -15,7 +17,7 @@ const MapStatus = {
 
 const polygon = [[59.513228, 29.701341], [60.181192, 31.130489]];
 
-const createStuct = (pointsGeo) => pointsGeo.map(it => it.map(it => {
+const createStruct = (pointsGeo) => pointsGeo.map(it => it.map(it => {
 	return {
 		points: it.GeoObject.Point.pos
 			.split(' ')
@@ -28,7 +30,7 @@ const createStuct = (pointsGeo) => pointsGeo.map(it => it.map(it => {
 
 const stuctItems = Object.keys(Direction)
 	.map((direction) => PointsGeo[Direction[direction]])
-	.map(createStuct)
+	.map(createStruct)
 	.reduce((prev, current) => (prev.concat(current)), []);
 
 const itemsInPolygon = stuctItems.map(it => it.filter(it => {
@@ -61,11 +63,16 @@ const initialState = {
 };
 
 const ActionType = {
-	MAP_STATUS_CHANGE: `map-status-change`,
+	ADD_POINTS: `add-points`,
 	ADD_ROUTE: `add-route`,
+	MAP_STATUS_CHANGE: `map-status-change`,
 };
 
 const ActionCreator = {
+	addPoints: ({points}) => ({
+		type: ActionType.ADD_POINTS,
+		payload: {points},
+	}),
 	addRoute: ({route}) => ({
 		type: ActionType.ADD_ROUTE,
 		payload: {route},
@@ -78,6 +85,11 @@ const ActionCreator = {
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
+		case ActionType.ADD_POINTS:
+			return {
+				...state,
+				points: state.points.concat(action.payload.points),
+			};
 		case ActionType.ADD_ROUTE:
 			const {__routes} = state;
 			const {route} = action.payload;
@@ -100,7 +112,10 @@ const reducer = (state = initialState, action) => {
 				routes: state.routes.concat(key),
 			};
 		case ActionType.MAP_STATUS_CHANGE:
-			return {...state, mapStatus: action.payload.status};
+			return {
+				...state,
+				mapStatus: action.payload.status
+			};
 	}
 
 	return state;
@@ -110,7 +125,8 @@ const Operation = {
 	initMap() {
 		return (dispatch, _getState, ymaps) => {
 			return ymaps.loadApi()
-				.then(() => ymaps.loadModules([`Map`, `Placemark`, `route`]))
+				.then(() => ymaps.loadModules([`Map`, `Placemark`, `route`, `geocode`]))
+				//.then(() => setTimeout(() => ymaps.loadModules([`geocode`]), 5000))
 				.then(() => dispatch(ActionCreator.changeMapStatus({status: MapStatus.INIT})))
 				.catch((e) => {
 					dispatch(ActionCreator.changeMapStatus({status: MapStatus.UNINIT}));
@@ -123,10 +139,46 @@ const Operation = {
 		return (dispatch, getState, ymaps) => {
 			return ymaps.createRoute({points, params})
 				.then((route) => {
-					debugger
 					dispatch(ActionCreator.addRoute({route}));
 				});
 		}
+	},
+	parseXSL({file, schema}) {
+		return (dispatch, getState, ymaps) => {
+			return readXlsxFile(file, {schema})
+				.then(({rows, errors}) => {
+					if (errors.length) {
+						console.error({errors});
+					}
+
+					console.log({rows});
+
+					return Promise.all(rows.map((row) => {
+						return window.ymaps.geocode(row.address)
+							.then((res) => {
+								const firstGeoObject = res.geoObjects.get(0);
+									// Координаты геообъекта.
+								const coords = firstGeoObject.geometry.getCoordinates();
+
+								console.log({coords})
+
+								return coords;
+							});
+					}))
+						.then((points) => {
+							dispatch(ActionCreator.addPoints({
+								points: points.map((point) => {
+									console.log({point})
+									return {
+										points: point,
+										item: null,
+										type: PointType.HOME,
+									};
+								}),
+							}));
+						});
+					});
+		};
 	},
 	renderMap({container, options}) {
 		return (dispatch, _getState, ymaps) => {

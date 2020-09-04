@@ -13,7 +13,7 @@ const Props = {
 const Point = ({children, renderPlaceMark, geometry, color, text, label}) => {
 	const options = {
 		preset: 'islands#blueStretchyIcon',
-		color,
+		iconColor: color,
 	};
 	const properties = {
 		iconCaption: label,

@@ -4,16 +4,19 @@
   "private": true,
   "dependencies": {
     "create-react-context": "0.3.0",
+    "node-xlsx": "0.15.0",
     "prop-types": "15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "7.1.0",
     "react-yandex-maps": "^4.0.1",
+    "read-excel-file": "^4.0.2",
     "redux": "4.0.4",
     "redux-thunk": "2.3.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.8.0"
+    "webpack-dev-server": "^3.8.0",
+    "ymaps": "^0.2.1"
   },
   "scripts": {
     "start": "webpack-dev-server",
