@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
-import {Operation} from '../../redux/';
-import Route from '../../components/route/route.jsx';
+import {Operation} from '../../redux';
+import Route from './route.jsx';
 
 const foo = (store, ownProps) => {
 	const a = store.__routes[ownProps.points.map((point) => point.slice().reverse().toString()).join(`_`)];

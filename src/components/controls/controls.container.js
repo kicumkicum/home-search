@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
-import {Operation} from '../../redux/';
-import Controls from '../../components/controls/controls.jsx';
+import {Operation} from '../../redux';
+import Controls from './controls.jsx';
 
 
 const mapDispatchToProps = (dispatch) => ({

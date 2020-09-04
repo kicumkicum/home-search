@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
-import {Operation, MapStatus} from '../../redux/';
-import App from '../../components/app/app.jsx';
+import {Operation, MapStatus} from '../../redux';
+import App from './app.jsx';
 
 
 const mapStateToProps = (state, ownProps) => ({

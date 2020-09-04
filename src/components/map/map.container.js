@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
-import {Operation} from '../../redux/';
-import Map from '../../components/map/map.jsx';
+import {Operation} from '../../redux';
+import Map from './map.jsx';
 
 
 const mapDispatchToProps = (dispatch) => ({

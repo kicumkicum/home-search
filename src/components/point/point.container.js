@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
-import {Operation} from '../../redux/';
-import Point from '../../components/point/point.jsx';
+import {Operation} from '../../redux';
+import Point from './point.jsx';
 
 
 const mapDispatchToProps = (dispatch) => ({

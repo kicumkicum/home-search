@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import pt from 'prop-types';
-import Controls from '../../containers/controls/controls.js';
-import Map from '../../containers/map/map.js';
-import Point from '../../containers/point/point.js';
-import Route from '../../containers/route/route.js';
+import Controls from '../controls/controls.container';
+import Map from '../map/map.container';
+import Point from '../point/point.container';
+import Route from '../route/route.container';
 
 
 const Props = {
