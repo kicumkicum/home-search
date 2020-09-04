@@ -1,9 +1,10 @@
 const createInstance = () => {
 	let loadPromise = null;
 	let map = null;
+	const apiKey = new URL(window.location.href).hash.substr(1);
 
 	const mapsApi = {
-		loadApi(url = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&load=&mode=release&apikey=5ce5a642-c15c-4814-9517-9947d1fc0f2e`) {
+		loadApi(url = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&load=&mode=release&apikey=${apiKey}`) {
 			loadPromise = new Promise((resolve, reject) => {
 				const script = document.createElement(`script`);
 

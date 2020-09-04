@@ -20,7 +20,6 @@ const App = (props) => {
 		{
 			mapIsInit &&
 			<Map>
-
 				{
 					points.map((point) => {
 						return <Route
@@ -32,6 +31,7 @@ const App = (props) => {
 							}}
 						>
 							<Point
+								key={`point` + point.points.join(`,`)}
 								geometry={[point.points[0], point.points[1]]}
 								color={`green`}
 								text={"aabbcc"}
@@ -42,6 +42,10 @@ const App = (props) => {
 				}
 			</Map>
 		}
+		<Controls
+			width={200}
+			height={600}
+		/>
 	</div>;
 };
 

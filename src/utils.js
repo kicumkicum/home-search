@@ -2,7 +2,7 @@ import {Points, Direction} from "./data/trains";
 
 console.log({Points, Direction});
 
-export const apiKey = `5ce5a642-c15c-4814-9517-9947d1fc0f2e`;
+export const apiKey = new URL(window.location.href).hash.substr(1);
 
 const fetchGeo = (query, apiKey) => {
   const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${query.replace(` `, `+`)}`;
